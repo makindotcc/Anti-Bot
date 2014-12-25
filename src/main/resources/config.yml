@@ -1,0 +1,5 @@
+enabled: true
+file-directory: './plugins/AntiBot/players'
+kick-message:
+- '&&aTwoje konto zostalo pomyslnie utworzone.'
+- '&&Prosimy, zaloguj sie ponownie na nasz serwer!'
