@@ -18,11 +18,10 @@ package pl.filippop1.antibot;
 
 import java.io.IOException;
 import java.util.logging.Level;
-import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import pl.filippop1.antibot.command.CommandExecutor;
+import pl.filippop1.antibot.option.OptionsManager;
 
 public class AntiBotPlugin extends JavaPlugin {
     public static String AUTHORS = "filippop1 & TheMolkaPL";
@@ -30,16 +29,14 @@ public class AntiBotPlugin extends JavaPlugin {
     private static Configuration configuration;
     private static boolean enabled;
     private static LatestLog logs;
+    private static OptionsManager options;
     private static int regiseredAccounts = 0;
     private static String version;
     
     @Override
     public void onEnable() {
         // Configuration
-        this.saveDefaultConfig();
-        configuration = new Configuration(this.getConfig());
-        configuration.loadConfiguration();
-        enabled = configuration.isEnabled();
+        this.loadConfiguration();
         
         // Logs
         logs = new LatestLog();
@@ -51,6 +48,10 @@ public class AntiBotPlugin extends JavaPlugin {
         this.getCommand("antibot").setExecutor(new CommandExecutor());
         CommandExecutor.get().registerDefaults();
         
+        // Options
+        options = new OptionsManager(this.getConfig());
+        options.addDefaultOptions();
+        
         // Metrics
         try {
             Metrics metrics = new Metrics(this);
@@ -60,13 +61,14 @@ public class AntiBotPlugin extends JavaPlugin {
         }
         
         // Shutdown if disabled
-        if (!getConfiguration().isEnabled()) {
+        if (getConfiguration().isEnabled()) {
+            enable();
+        } else {
             this.getLogger().log(Level.INFO, "Wylaczanie...");
             this.getLogger().log(Level.INFO, "Plugin zostanie automatycznie wylaczony poniewaz opcja `enabled` jest ustawiona na `false`.");
             this.getLogger().log(Level.INFO, "Mozesz go wlaczyc zmieniajac ustawienie `enabled` na `true` lub wpisujac komende /anti-bot status enable.");
+            disable();
         }
-        
-        enable();
     }
     
     public static void addRegisteredAccount() {
@@ -74,13 +76,13 @@ public class AntiBotPlugin extends JavaPlugin {
     }
     
     public static void enable() {
-        Bukkit.getPluginManager().registerEvents(new Listeners(), Bukkit.getPluginManager().getPlugin("Anti-Bot"));
         enabled = true;
+        getOptions().reloadAll();
     }
     
     public static void disable() {
-        HandlerList.unregisterAll(Bukkit.getPluginManager().getPlugin("Anti-Bot"));
         enabled = false;
+        getOptions().reloadAll();
     }
     
     public static Configuration getConfiguration() {
@@ -89,6 +91,10 @@ public class AntiBotPlugin extends JavaPlugin {
     
     public static LatestLog getLogs() {
         return logs;
+    }
+    
+    public static OptionsManager getOptions() {
+        return options;
     }
     
     public static int getRegisteredAccounts() {
@@ -101,5 +107,13 @@ public class AntiBotPlugin extends JavaPlugin {
     
     public static boolean isPluginEnabled() {
         return enabled;
+    }
+    
+    public void loadConfiguration() {
+        this.saveDefaultConfig();
+        configuration = new Configuration(this.getConfig());
+        configuration.loadConfiguration();
+        
+        enabled = configuration.isEnabled();
     }
 }

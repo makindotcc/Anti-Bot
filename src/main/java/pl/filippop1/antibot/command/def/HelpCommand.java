@@ -87,7 +87,8 @@ public class HelpCommand extends Command {
         for (String cmd : manager.getCommands()) {
             Command command = manager.getCommand(cmd);
             if (cmd.equals(command.getName())) {
-                sender.sendMessage(ChatColor.GOLD + command.getUsage() + ChatColor.GRAY + " - " + command.getDescription());
+                String name = "/anti-bot " + command.getName();
+                sender.sendMessage(ChatColor.GOLD + name + ChatColor.GRAY + " - " + command.getDescription());
             }
         }
         sender.sendMessage(ChatColor.GREEN + "[Porada] Uzyj /anti-bot help <command>, aby otrzymac dokladne informacje o komendzie");

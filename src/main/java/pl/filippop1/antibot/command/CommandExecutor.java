@@ -22,6 +22,7 @@ import java.util.Set;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import pl.filippop1.antibot.command.def.OptionCommand;
 import pl.filippop1.antibot.command.def.HelpCommand;
 import pl.filippop1.antibot.command.def.LogsCommand;
 import pl.filippop1.antibot.command.def.StatusCommand;
@@ -96,6 +97,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     }
     
     public void registerDefaults() {
+        this.register(new OptionCommand());
         this.register(new HelpCommand());
         this.register(new LogsCommand());
         this.register(new StatusCommand());

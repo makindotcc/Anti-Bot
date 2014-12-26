@@ -49,7 +49,7 @@ public class StatusCommand extends Command {
         if (!sender.hasPermission("antibot.enable")) {
             throw new PermissionException("antibot.enable");
         } else if (AntiBotPlugin.isPluginEnabled()) {
-            throw new CommandException("Anti-Bot v" + version + " juz jest wlaczony.");
+            throw new CommandException("Anti-Bot v" + version + " jest juz wlaczony.");
         } else {
             long ms = System.currentTimeMillis();
             AntiBotPlugin.enable();
@@ -62,7 +62,7 @@ public class StatusCommand extends Command {
         if (!sender.hasPermission("antibot.disable")) {
             throw new PermissionException("antibot.disable");
         } else if (!AntiBotPlugin.isPluginEnabled()) {
-            throw new CommandException("Anti-Bot v" + version + " juz jest wylaczony.");
+            throw new CommandException("Anti-Bot v" + version + " jest juz wylaczony.");
         } else {
             long ms = System.currentTimeMillis();
             AntiBotPlugin.disable();

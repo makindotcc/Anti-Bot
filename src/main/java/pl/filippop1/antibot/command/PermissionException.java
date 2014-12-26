@@ -15,10 +15,6 @@
  */
 package pl.filippop1.antibot.command;
 
-/**
- *
- * @author Aleksander
- */
 public class PermissionException extends CommandException {
     /**
      * Constructs an instance of <code>PermissionException</code> with the

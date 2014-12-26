@@ -3,6 +3,10 @@
 enabled: true
 # Lokalizacja folderu z graczami
 file-directory: './plugins/Anti-Bot/players'
+# Ustawienia rodzajow ochrony
+options:
+  # Rejestracja kont
+  accounts: true
 # Wiadomosc do gracza przy stworzeniu konta
 # Zmienne:
 #     $player - nick gracza,
