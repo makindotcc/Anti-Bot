@@ -51,8 +51,7 @@ public class HelpCommand extends Command {
             }
             
             if (command == null) {
-                sender.sendMessage(ChatColor.RED + "Nie znaleziono pomocy dla komendy " + query + ".");
-                return;
+                throw new CommandException("Nie znaleziono pomocy dla komendy " + query + ".");
             } else if (found > 1) {
                 sender.sendMessage(ChatColor.GREEN + "Znaleziono wiecej niz jedna komende.");
             }
@@ -76,15 +75,22 @@ public class HelpCommand extends Command {
     }
     
     private void showCommands(CommandSender sender, CommandExecutor manager) {
+        int commands = 0;
+        for (String cmd : manager.getCommands()) {
+            if (cmd.equals(manager.getCommand(cmd).getName())) {
+                commands++;
+            }
+        }
+        
         sender.sendMessage(ChatColor.GOLD + "---------- Pomoc " + ChatColor.YELLOW + "(" +
-                manager.getCommands().size() + " komend)" + ChatColor.GOLD + " ----------" );
+                commands + " komend)" + ChatColor.GOLD + " ----------" );
         for (String cmd : manager.getCommands()) {
             Command command = manager.getCommand(cmd);
             if (cmd.equals(command.getName())) {
                 sender.sendMessage(ChatColor.GOLD + command.getUsage() + ChatColor.GRAY + " - " + command.getDescription());
             }
         }
-        sender.sendMessage(ChatColor.GREEN + "[Porada] Uzyj /antibot help <command>, aby otrzymac dokladne informacje o komendzie");
+        sender.sendMessage(ChatColor.GREEN + "[Porada] Uzyj /anti-bot help <command>, aby otrzymac dokladne informacje o komendzie");
     }
     
     private String aliases(String[] aliases) {

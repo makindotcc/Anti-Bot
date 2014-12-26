@@ -18,6 +18,7 @@ package pl.filippop1.antibot;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -26,10 +27,13 @@ import org.bukkit.entity.Player;
 public class BotPlayer {
     private File file;
     private final Player player;
+    private final InetAddress address;
     
-    public BotPlayer(Player player) {
+    public BotPlayer(Player player, InetAddress address) {
         Validate.notNull(player, "player can not be null");
+        Validate.notNull(address, "address can not be null");
         this.player = player;
+        this.address = address;
         this.loadFile();
     }
     
@@ -37,8 +41,16 @@ public class BotPlayer {
         return !this.file.exists();
     }
     
+    public InetAddress getAddress() {
+        return this.address;
+    }
+    
     public File getFile() {
         return this.file;
+    }
+    
+    public Player getPlayer() {
+        return this.player;
     }
     
     private void loadFile() {
@@ -54,5 +66,12 @@ public class BotPlayer {
                     + " (znanego jako `" + this.player.getName() + "`)";
             Bukkit.getLogger().log(Level.SEVERE, message, ex);
         }
+        AntiBotPlugin.addRegisteredAccount();
+        
+        AntiBotPlugin.getLogs().add(new LatestLog.LatestBot(
+                this.address.getHostAddress(),
+                this.player.getUniqueId().toString(),
+                this.player.getName()
+        ));
     }
 }

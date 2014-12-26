@@ -68,7 +68,7 @@ public class Command {
     }
     
     public String getUsage() {
-        String us = "/antibot " + this.getName();
+        String us = "/anti-bot " + this.getName();
         if (this.usage != null) {
             us = us + " " + this.usage;
         }

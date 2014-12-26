@@ -17,17 +17,19 @@
 package pl.filippop1.antibot.command;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import pl.filippop1.antibot.AntiBotPlugin;
 import pl.filippop1.antibot.command.def.HelpCommand;
+import pl.filippop1.antibot.command.def.LogsCommand;
+import pl.filippop1.antibot.command.def.StatusCommand;
 import pl.filippop1.antibot.command.def.VersionCommand;
 
 public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     private static CommandExecutor instance;
-    private final HashMap<String, Command> commandMap;
+    private final Map<String, Command> commandMap;
     
     public CommandExecutor() {
         instance = this;
@@ -36,7 +38,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
-        if (command.getName().equalsIgnoreCase("antibot")) {
+        if (command.getName().equalsIgnoreCase("anti-bot")) {
             if (args.length == 0) {
                 this.execute(sender, new String[] {"help"});
             } else {
@@ -70,7 +72,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
             }
         } else {
             sender.sendMessage(ChatColor.RED + "Komenda " + name + " nie zostala odnaleziona.");
-            sender.sendMessage(ChatColor.GRAY + "Uzyj /antibot help, aby uzyskac liste komend oraz pomoc");
+            sender.sendMessage(ChatColor.GRAY + "Uzyj /anti-bot help, aby uzyskac liste komend oraz pomoc");
         }
     }
     
@@ -95,8 +97,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     
     public void registerDefaults() {
         this.register(new HelpCommand());
+        this.register(new LogsCommand());
+        this.register(new StatusCommand());
         this.register(new VersionCommand());
-        // TODO More commands
     }
     
     public static CommandExecutor get() {

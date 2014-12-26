@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import pl.filippop1.antibot.AntiBotPlugin;
 import pl.filippop1.antibot.command.Command;
+import pl.filippop1.antibot.command.CommandException;
 
 public class VersionCommand extends Command {
     public VersionCommand() {
@@ -28,11 +29,11 @@ public class VersionCommand extends Command {
     }
     
     @Override
-    public void execute(CommandSender sender, String[] args) {
+    public void execute(CommandSender sender, String[] args) throws CommandException {
         String git = AntiBotPlugin.SOURCE_URL;
-        sender.sendMessage(ChatColor.GOLD + "AntiBot wersja " + ChatColor.YELLOW + AntiBotPlugin.VERSION
+        sender.sendMessage(ChatColor.GOLD + "Anti-Bot wersja " + ChatColor.YELLOW + AntiBotPlugin.getVersion()
                 + ChatColor.GOLD + " by " + ChatColor.YELLOW + AntiBotPlugin.AUTHORS);
-        sender.sendMessage(ChatColor.GOLD + "Otwarty kod (GitHub): " + ChatColor.YELLOW + git);
+        sender.sendMessage(ChatColor.GOLD + "Otwarty kod: " + ChatColor.YELLOW + git);
         sender.sendMessage(ChatColor.GOLD + "Bledy oraz propozycje: " + ChatColor.YELLOW + git + "/issues");
     }
 }

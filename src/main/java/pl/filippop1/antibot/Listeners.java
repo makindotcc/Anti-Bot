@@ -16,6 +16,7 @@
 
 package pl.filippop1.antibot;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -23,10 +24,20 @@ import org.bukkit.event.player.PlayerLoginEvent;
 public class Listeners implements Listener {
     @EventHandler
     public void onPlayerLogin(PlayerLoginEvent e) {
-        BotPlayer bot = new BotPlayer(e.getPlayer());
+        BotPlayer bot = new BotPlayer(e.getPlayer(), e.getAddress());
         if (bot.firstJoin()) {
             bot.register();
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, AntiBotPlugin.getConfiguration().getKickMessage());
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, this.translate(AntiBotPlugin.getConfiguration().getKickMessage(), e));
         }
+    }
+    
+    private String translate(String message, PlayerLoginEvent event) {
+        Validate.notNull(message, "message can not be null");
+        Validate.notNull(event, "event can not be null");
+        return message
+                .replace("$player", event.getPlayer().getName())
+                .replace("$hostname", event.getHostname())
+                .replace("$uuid", event.getPlayer().getUniqueId().toString())
+                .replace("$ip", event.getAddress().getHostAddress());
     }
 }

@@ -1,5 +1,14 @@
+# Domyslna ustawienie wlaczenia pluginu.
+# Zawsze mozesz go wlaczyc lub wylaczyc komenda /anti-bot status <enable|disable>
 enabled: true
-file-directory: './plugins/AntiBot/players'
+# Lokalizacja folderu z graczami
+file-directory: './plugins/Anti-Bot/players'
+# Wiadomosc do gracza przy stworzeniu konta
+# Zmienne:
+#     $player - nick gracza,
+#     $hostname - nazwa hosta,
+#     $uuid - UUID gracza,
+#     $ip - IP gracza
 kick-message:
 - '&&aTwoje konto zostalo pomyslnie utworzone.'
-- '&&Prosimy, zaloguj sie ponownie na nasz serwer!'
+- '&&aProsimy, zaloguj sie ponownie na nasz serwer!'

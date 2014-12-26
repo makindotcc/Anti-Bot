@@ -1,10 +1,11 @@
-name: AntiBot
-author: filippop1
+name: Anti-Bot
+authors: [filippop1, TheMolkaPL]
 version: '${project.version}'
 description: 'Blokowanie botów na serwerze Minecraft'
+website: 'https://github.com/Thefilippop1PL/Anti-Bot'
 main: pl.filippop1.antibot.AntiBotPlugin
 commands:
-  antibot:
+  anti-bot:
     description: 'Zarzadzanie pluginem AntiBot'
-    aliases: [bot, bots, anti-bot, antybot, anty-bot, brazzers, zz]
-    usage: '`/antibot help`, aby uzyskac pomoc'
+    aliases: [antibot, bot, bots, antybot, anty-bot, brazzers, zz]
+    usage: 'Uzyj `/antibot help`, aby uzyskac pomoc'

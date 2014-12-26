@@ -45,7 +45,7 @@ public class Configuration {
     
     public void loadConfiguration() {
         // File foler
-        String directory = this.file.getString("file-directory", "./plugins/AntiBot/players");
+        String directory = this.file.getString("file-directory", "./plugins/Anti-Bot/players");
         this.fileFolder = new File(directory.replace("/", File.separator));
         this.fileFolder.mkdir();
         
