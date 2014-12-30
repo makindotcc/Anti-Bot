@@ -41,6 +41,7 @@ public class OptionsManager {
     public void addDefaultOptions() {
         this.options = new ArrayList<>();
         this.addOption(new AccountsOption());
+        this.addOption(new BlockCmdOption());
     }
     
     public Option findOption(String query) {

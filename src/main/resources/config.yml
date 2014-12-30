@@ -7,7 +7,9 @@ file-directory: './plugins/Anti-Bot/players'
 options:
   # Rejestracja kont
   accounts: true
-# Wiadomosc do gracza przy stworzeniu konta
+  # Blokowanie chatowych komend, definiujesz ich liste w `block-cmd-list`.
+  block-cmd: true
+# Wiadomosc do gracza przy stworzeniu konta w `accounts`
 # Zmienne:
 #     $player - nick gracza,
 #     $hostname - nazwa hosta,
@@ -16,3 +18,22 @@ options:
 kick-message:
 - '&&aTwoje konto zostalo pomyslnie utworzone.'
 - '&&aProsimy, zaloguj sie ponownie na nasz serwer!'
+# Lista zablokowanych komend w `block-cmd`
+block-cmd-list:
+- '!attackall'
+- '!attack'
+- '!build'
+- '!calc'
+- '!derp'
+- '!destroy'
+- '!drop'
+- '!dropall'
+- '!equip'
+- '!follow'
+- '!help'
+- '!say'
+- '!spam'
+- '!stop'
+- '!status'
+- '!tool'
+block-cmd-message: '&&cNie mozesz uzywac komend od botów!'

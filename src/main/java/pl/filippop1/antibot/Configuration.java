@@ -17,6 +17,8 @@
 package pl.filippop1.antibot;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -25,10 +27,20 @@ public class Configuration {
     private File fileFolder;
     private boolean enabled;
     private String kickMessage;
+    private List<String> blockedCmds;
+    private String blockedCmdsMsg;
     
     public Configuration(FileConfiguration file) {
         Validate.notNull(file, "file can not be null");
         this.file = file;
+    }
+    
+    public List<String> getBlockedCmds() {
+        return this.blockedCmds;
+    }
+    
+    public String getBlockedCmdsMsg() {
+        return this.blockedCmdsMsg;
     }
     
     public File getFileFolder() {
@@ -55,8 +67,22 @@ public class Configuration {
         // Kick message option
         StringBuilder builder = new StringBuilder();
         for (String string : this.file.getStringList("kick-message")) {
-            builder.append(string.replace("&&", "§")).append("\n");
+            builder.append(this.translateColors(string)).append("\n");
         }
         this.kickMessage = builder.toString();
+        
+        // List of blocked commands
+        this.blockedCmds = this.file.getStringList("block-cmd-list");
+        if (this.blockedCmds == null) {
+            this.blockedCmds = new ArrayList<>();
+        }
+        
+        // Reason message when player is trying to send bot-message
+        this.blockedCmdsMsg = this.translateColors(this.file.getString("block-cmd-message", "&&cNie mozesz uzywac komend od botów!"));
+    }
+    
+    private String translateColors(String message) {
+        Validate.notNull(message, "message can not be null");
+        return message.replace("&&", "§");
     }
 }
