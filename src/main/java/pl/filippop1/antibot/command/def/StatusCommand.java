@@ -71,22 +71,18 @@ public class StatusCommand extends Command {
     }
     
     private void info(CommandSender sender) throws CommandException {
-        if (!sender.hasPermission("antibot.info")) {
-            throw new PermissionException("antibot.info");
+        String enabledValue;
+        if (AntiBotPlugin.isPluginEnabled()) {
+            enabledValue = ChatColor.GREEN + "wlaczony";
         } else {
-            String enabledValue;
-            if (AntiBotPlugin.isPluginEnabled()) {
-                enabledValue = ChatColor.GREEN + "wlaczony";
-            } else {
-                enabledValue = ChatColor.RED + "wylaczony";
-            }
-            
-            int accounts = AntiBotPlugin.getConfiguration().getFileFolder().listFiles().length;
-            
-            sender.sendMessage(ChatColor.GOLD + "Anti-Bot jest teraz " + enabledValue + ChatColor.GOLD + ".");
-            sender.sendMessage(ChatColor.GOLD + "Obecnie zarejestrowanych kont: " + ChatColor.YELLOW + accounts);
-            sender.sendMessage(ChatColor.GOLD + "Zarejestrowane konta od zaladowania pluginu: " + ChatColor.YELLOW + AntiBotPlugin.getRegisteredAccounts());
-            sender.sendMessage(ChatColor.GREEN + "[Porada] Uzyj /anti-bot logs, aby wyswietlic najnowsze zarejestrowane konta.");
+            enabledValue = ChatColor.RED + "wylaczony";
         }
+        
+        int accounts = AntiBotPlugin.getConfiguration().getFileFolder().listFiles().length;
+        
+        sender.sendMessage(ChatColor.GOLD + "Anti-Bot jest teraz " + enabledValue + ChatColor.GOLD + ".");
+        sender.sendMessage(ChatColor.GOLD + "Obecnie zarejestrowanych kont: " + ChatColor.YELLOW + accounts);
+        sender.sendMessage(ChatColor.GOLD + "Zarejestrowane konta od zaladowania pluginu: " + ChatColor.YELLOW + AntiBotPlugin.getRegisteredAccounts());
+        sender.sendMessage(ChatColor.GREEN + "[Porada] Uzyj /anti-bot logs, aby wyswietlic najnowsze zarejestrowane konta.");
     }
 }
