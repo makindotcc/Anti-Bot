@@ -44,9 +44,10 @@ public class AntiBotPlugin extends JavaPlugin {
         // Version
         version = this.getDescription().getVersion();
         
-        // Commands
+        // Commands and listeners
         this.getCommand("antibot").setExecutor(new CommandExecutor());
         CommandExecutor.get().registerDefaults();
+        this.getServer().getPluginManager().registerEvents(new LoginListener(), this);
         
         // Options
         options = new OptionsManager(this.getConfig());
