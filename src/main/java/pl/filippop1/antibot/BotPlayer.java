@@ -19,21 +19,24 @@ package pl.filippop1.antibot;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.UUID;
 import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class BotPlayer {
     private File file;
-    private final Player player;
     private final InetAddress address;
+    private final String nickname;
+    private final UUID uuid;
     
-    public BotPlayer(Player player, InetAddress address) {
-        Validate.notNull(player, "player can not be null");
+    public BotPlayer(InetAddress address, String nickname, UUID uuid) {
         Validate.notNull(address, "address can not be null");
-        this.player = player;
+        Validate.notNull(nickname, "nickname can not be null");
+        Validate.notNull(uuid, "uuid can not be null");
         this.address = address;
+        this.nickname = nickname;
+        this.uuid = uuid;
         this.loadFile();
     }
     
@@ -49,29 +52,33 @@ public class BotPlayer {
         return this.file;
     }
     
-    public Player getPlayer() {
-        return this.player;
+    public String getNickname() {
+        return this.nickname;
+    }
+    
+    public UUID getUUID() {
+        return this.uuid;
     }
     
     private void loadFile() {
         String path = AntiBotPlugin.getConfiguration().getFileFolder().getAbsolutePath() + File.separator;
-        this.file = new File(path + this.player.getUniqueId() + ".bot");
+        this.file = new File(path + this.getUUID().toString() + ".bot");
     }
     
     public void register() {
         try {
             file.createNewFile();
         } catch (IOException ex) {
-            String message = "Nie udalo sie stworzyc nowego pliku gracza " + this.player.getUniqueId().toString()
-                    + " (znanego jako `" + this.player.getName() + "`)";
+            String message = "Nie udalo sie stworzyc nowego pliku gracza " + this.getUUID().toString()
+                    + " (znanego jako `" + this.getNickname() + "`)";
             Bukkit.getLogger().log(Level.SEVERE, message, ex);
         }
         AntiBotPlugin.addRegisteredAccount();
         
         AntiBotPlugin.getLogs().add(new LatestLog.LatestBot(
                 this.address.getHostAddress(),
-                this.player.getUniqueId().toString(),
-                this.player.getName()
+                this.getUUID().toString(),
+                this.getNickname()
         ));
     }
 }
