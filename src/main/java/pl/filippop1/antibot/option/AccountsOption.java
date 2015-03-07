@@ -20,8 +20,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
 import pl.filippop1.antibot.AntiBotPlugin;
+import pl.filippop1.antibot.BotLoginEvent;
 import pl.filippop1.antibot.BotPlayer;
 
 public class AccountsOption extends Option implements Listener {
@@ -40,21 +40,21 @@ public class AccountsOption extends Option implements Listener {
     }
     
     @EventHandler
-    public void onPlayerLogin(PlayerLoginEvent e) {
-        BotPlayer bot = new BotPlayer(e.getPlayer(), e.getAddress());
-        if (bot.firstJoin()) {
-            bot.register();
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, this.translate(AntiBotPlugin.getConfiguration().getKickMessage(), e));
+    public void onBotLogin(BotLoginEvent e) {
+        if (e.getBot().firstJoin()) {
+            e.getBot().register();
+            
+            e.setCancelled(true);
+            e.setReason(this.translate(AntiBotPlugin.getConfiguration().getKickMessage(), e.getBot()));
         }
     }
     
-    private String translate(String message, PlayerLoginEvent event) {
+    private String translate(String message, BotPlayer bot) {
         Validate.notNull(message, "message can not be null");
-        Validate.notNull(event, "event can not be null");
+        Validate.notNull(bot, "bot can not be null");
         return message
-                .replace("$player", event.getPlayer().getName())
-                .replace("$hostname", event.getHostname())
-                .replace("$uuid", event.getPlayer().getUniqueId().toString())
-                .replace("$ip", event.getAddress().getHostAddress());
+                .replace("$player", bot.getNickname())
+                .replace("$uuid", bot.getUUID().toString())
+                .replace("$ip", bot.getAddress().getHostAddress());
     }
 }
