@@ -16,8 +16,8 @@
 
 package pl.filippop1.antibot.option;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -29,7 +29,8 @@ import pl.filippop1.antibot.BotLoginEvent;
 import pl.filippop1.antibot.BotPlayer;
 
 public class PingOption extends Option implements Listener {
-    private final List<String> pinged = new ArrayList<>();
+    public static final long TIMEOUT = 10 * 1000L;
+    private final Map<String, Long> pinged = new HashMap<>();
     
     public PingOption() {
         super("ping");
@@ -47,7 +48,7 @@ public class PingOption extends Option implements Listener {
     
     @EventHandler
     public void onBotLogin(BotLoginEvent e) {
-        if (!this.pinged.contains(e.getBot().getAddress().getHostAddress())) {
+        if (!this.pinged.containsKey(e.getBot().getAddress().getHostAddress())) {
             e.setCancelled(true);
             e.setReason(this.translate(AntiBotPlugin.getConfiguration().getPingMessage(), e.getBot()));
         }
@@ -55,7 +56,20 @@ public class PingOption extends Option implements Listener {
     
     @EventHandler
     public void onServerListPingEvent(ServerListPingEvent e) {
-        this.pinged.add(e.getAddress().getHostAddress());
+        String address = e.getAddress().getHostAddress();
+        if (!this.pinged.containsKey(address)) {
+            this.checkListedAddresses();
+            this.pinged.put(address, System.currentTimeMillis());
+        }
+    }
+    
+    private void checkListedAddresses() {
+        for (String address : this.pinged.keySet()) {
+            long millis = this.pinged.get(address);
+            if (PingOption.TIMEOUT < (System.currentTimeMillis() - millis)) {
+                this.pinged.remove(address);
+            }
+        }
     }
     
     private String translate(String message, BotPlayer bot) {
