@@ -9,6 +9,8 @@ options:
   accounts: false
   # Blokowanie chatowych komend, definiujesz ich liste w `block-cmd-list`.
   block-cmd: true
+  # Usuwanie kont po okreslonym czasie, wymaga opcji `accounts`
+  expires: false
   # Blokowanie wejscia botow, jezeli ten niespigowal serwera
   ping: true
 # Wiadomosc do gracza przy stworzeniu konta w `accounts`
@@ -48,3 +50,11 @@ block-cmd-list:
 - '!status'
 - '!tool'
 block-cmd-message: '&&cNie mozesz uzywac komend od botów!'
+# Czas po ktorym konto ma zostac usuniete w `expires`.
+# Zmienne:
+#     t - ticki (1 sekunda = 20 ticków)
+#     s - sekundy (1 minuta = 60 sekund)
+#     m - minuty (1 godzina = 60 minut)
+#     h - godziny (1 dzien = 24 godziny)
+#     d - dni
+expires-time: 30d

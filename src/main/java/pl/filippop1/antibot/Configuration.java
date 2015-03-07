@@ -19,13 +19,16 @@ package pl.filippop1.antibot;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class Configuration {
     private final FileConfiguration file;
     private File fileFolder;
     private boolean enabled;
+    private String expires;
     private String kickMessage;
     private String pingMessage;
     private List<String> blockedCmds;
@@ -42,6 +45,10 @@ public class Configuration {
     
     public String getBlockedCmdsMsg() {
         return this.blockedCmdsMsg;
+    }
+    
+    public String getExpires() {
+        return this.expires;
     }
     
     public File getFileFolder() {
@@ -68,6 +75,9 @@ public class Configuration {
         
         // Enabled option
         this.enabled = this.file.getBoolean("enabled", true);
+        
+        // Expires time
+        this.expires = this.file.getString("expires", "30d");
         
         // Kick message option
         StringBuilder kick = new StringBuilder();
@@ -96,5 +106,10 @@ public class Configuration {
     private String translateColors(String message) {
         Validate.notNull(message, "message can not be null");
         return message.replace("&&", "§");
+    }
+    
+    public static void exception(Throwable exception) {
+        Bukkit.getLogger().log(Level.WARNING, "Konfiguracja nie jest prawidlowa ({0}): {1}.",
+                new Object[] {exception.toString(), exception.getLocalizedMessage()});
     }
 }

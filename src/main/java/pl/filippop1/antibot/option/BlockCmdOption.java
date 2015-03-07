@@ -45,6 +45,7 @@ public class BlockCmdOption extends Option implements Listener {
                 if (e.getMessage().contains(command)) {
                     e.setCancelled(true);
                     e.getPlayer().sendMessage(AntiBotPlugin.getConfiguration().getBlockedCmdsMsg());
+                    break;
                 }
             }
         }
