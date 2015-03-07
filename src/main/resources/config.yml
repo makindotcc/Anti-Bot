@@ -6,18 +6,29 @@ file-directory: './plugins/Anti-Bot/players'
 # Ustawienia rodzajow ochrony
 options:
   # Rejestracja kont
-  accounts: true
+  accounts: false
   # Blokowanie chatowych komend, definiujesz ich liste w `block-cmd-list`.
   block-cmd: true
+  # Blokowanie wejscia botow, jezeli ten niespigowal serwera
+  ping: true
 # Wiadomosc do gracza przy stworzeniu konta w `accounts`
 # Zmienne:
 #     $player - nick gracza,
-#     $hostname - nazwa hosta,
 #     $uuid - UUID gracza,
 #     $ip - IP gracza
 kick-message:
-- '&&aTwoje konto zostalo pomyslnie utworzone.'
+- '&&8[&&7Anti-Bot&&8] &&aTwoje konto zostalo pomyslnie utworzone.'
 - '&&aProsimy, zaloguj sie ponownie na nasz serwer!'
+# Wiadomosc do gracza, jezeli ten nie spingowal wczesniej serwera
+# Zmienne
+#     $player - nick gracza,
+#     $uuid - UUID gracza,
+#     $ip - IP gracza
+ping-message:
+- '&&8[&&7Anti-Bot&&8] &&aAby dolaczyc na ten serwer musisz go najpierw spingowac'
+- '&&aAby to zrobic wykonaj nastepujace czynnosci:'
+- '&&aDodaj ten serwer do listy swoich ulubionych serwerow'
+- '&&aZjedz na sam dol listy oraz zaczekaj az napis "Pingging..." zamieni sie na MOTD serwera'
 # Lista zablokowanych komend w `block-cmd`
 block-cmd-list:
 - '!attackall'

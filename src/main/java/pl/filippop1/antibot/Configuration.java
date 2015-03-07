@@ -27,6 +27,7 @@ public class Configuration {
     private File fileFolder;
     private boolean enabled;
     private String kickMessage;
+    private String pingMessage;
     private List<String> blockedCmds;
     private String blockedCmdsMsg;
     
@@ -51,6 +52,10 @@ public class Configuration {
         return this.kickMessage;
     }
     
+    public String getPingMessage() {
+        return this.pingMessage;
+    }
+    
     public boolean isEnabled() {
         return this.enabled;
     }
@@ -65,11 +70,18 @@ public class Configuration {
         this.enabled = this.file.getBoolean("enabled", true);
         
         // Kick message option
-        StringBuilder builder = new StringBuilder();
+        StringBuilder kick = new StringBuilder();
         for (String string : this.file.getStringList("kick-message")) {
-            builder.append(this.translateColors(string)).append("\n");
+            kick.append(this.translateColors(string)).append("\n");
         }
-        this.kickMessage = builder.toString();
+        this.kickMessage = kick.toString();
+        
+        // Ping message option
+        StringBuilder ping = new StringBuilder();
+        for (String string : this.file.getStringList("ping-message")) {
+            ping.append(this.translateColors(string)).append("\n");
+        }
+        this.pingMessage = ping.toString();
         
         // List of blocked commands
         this.blockedCmds = this.file.getStringList("block-cmd-list");
