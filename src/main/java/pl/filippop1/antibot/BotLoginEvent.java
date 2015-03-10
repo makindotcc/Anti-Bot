@@ -27,6 +27,7 @@ public class BotLoginEvent extends Event implements Cancellable {
     private String reason;
     
     public BotLoginEvent(BotPlayer player) {
+        super(true);
         this.player = player;
     }
     
