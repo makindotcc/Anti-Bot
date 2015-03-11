@@ -30,7 +30,7 @@ import pl.filippop1.antibot.BotPlayer;
 
 public class PingOption extends Option implements Listener {
     public static final long TIMEOUT = 10 * 1000L;
-    private final Map<String, Long> pinged = new HashMap<>();
+    private static volatile Map<String, Long> pinged = new HashMap<>();
     
     public PingOption() {
         super("ping");
