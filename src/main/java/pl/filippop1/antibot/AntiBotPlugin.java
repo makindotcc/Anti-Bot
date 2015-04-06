@@ -22,6 +22,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import pl.filippop1.antibot.command.CommandExecutor;
 import pl.filippop1.antibot.option.OptionsManager;
+import pl.themolka.cmds.Settings;
+import static pl.themolka.cmds.Settings.setMessage;
 
 public class AntiBotPlugin extends JavaPlugin {
     public static String AUTHORS = "filippop1 & TheMolkaPL";
@@ -53,6 +55,14 @@ public class AntiBotPlugin extends JavaPlugin {
         options = new OptionsManager(this.getConfig());
         options.addDefaultOptions();
         
+        // CMDS library
+        Settings.setup(this);
+        setMessage("console", "Musisz byc graczem w grze, aby wykonac ta komende.");
+        setMessage("internal-error", "Wewnetrzny blad serwera: zobacz konsole po wiecej informacji.");
+        setMessage("not-implemented", "Nie zaimplementowano jeszcze w wykonawcy.");
+        setMessage("number", "Musisz podac liczbe (otrzymano tekst).");
+        setMessage("permission", "Nie posiadasz uprawnien do wykonania tej komendy.");
+        
         // Metrics
         try {
             Metrics metrics = new Metrics(this);
@@ -70,6 +80,12 @@ public class AntiBotPlugin extends JavaPlugin {
             this.getLogger().log(Level.INFO, "Mozesz go wlaczyc zmieniajac ustawienie `enabled` na `true` lub wpisujac komende /anti-bot status enable.");
             disable();
         }
+    }
+    
+    @Override
+    public void onDisable() {
+        // CMDS library
+        Settings.destroy();
     }
     
     public static void addRegisteredAccount() {
