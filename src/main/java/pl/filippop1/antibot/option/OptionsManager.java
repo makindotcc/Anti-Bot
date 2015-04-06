@@ -42,6 +42,7 @@ public class OptionsManager {
         this.options = new ArrayList<>();
         this.addOption(new AccountsOption());
         this.addOption(new BlockCmdOption());
+        this.addOption(new MPCOption());
         this.addOption(new PingOption());
     }
     
