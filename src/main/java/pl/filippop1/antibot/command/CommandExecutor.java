@@ -26,6 +26,7 @@ import pl.filippop1.antibot.command.def.OptionCommand;
 import pl.filippop1.antibot.command.def.HelpCommand;
 import pl.filippop1.antibot.command.def.LogsCommand;
 import pl.filippop1.antibot.command.def.StatusCommand;
+import pl.filippop1.antibot.command.def.UpdaterCommand;
 import pl.filippop1.antibot.command.def.VersionCommand;
 
 public class CommandExecutor implements org.bukkit.command.CommandExecutor {
@@ -101,6 +102,7 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
         this.register(new HelpCommand());
         this.register(new LogsCommand());
         this.register(new StatusCommand());
+        this.register(new UpdaterCommand());
         this.register(new VersionCommand());
     }
     

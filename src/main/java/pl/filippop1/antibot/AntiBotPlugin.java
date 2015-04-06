@@ -17,26 +17,38 @@
 package pl.filippop1.antibot;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import pl.filippop1.antibot.command.CommandExecutor;
 import pl.filippop1.antibot.option.OptionsManager;
 import pl.themolka.cmds.Settings;
 import static pl.themolka.cmds.Settings.setMessage;
+import pl.themolka.cmds.util.AsyncPluginUpdater;
+import pl.themolka.cmds.util.PluginUpdater;
+import pl.themolka.cmds.util.UpdateFuture;
 
 public class AntiBotPlugin extends JavaPlugin {
-    public static String AUTHORS = "filippop1 & TheMolkaPL";
-    public static String SOURCE_URL = "https://github.com/Thefilippop1PL/Anti-Bot";
+    public static final String AUTHORS = "filippop1 & TheMolkaPL";
+    public static final String SOURCE_URL = "https://github.com/Thefilippop1PL/Anti-Bot";
+    public static final String UPDATER_URL = "https://raw.githubusercontent.com/Thefilippop1PL/Anti-Bot/master/updater.txt";
     private static Configuration configuration;
     private static boolean enabled;
+    private static Plugin instance;
     private static LatestLog logs;
     private static OptionsManager options;
     private static int regiseredAccounts = 0;
+    private static AsyncPluginUpdater updater;
     private static String version;
     
     @Override
     public void onEnable() {
+        instance = this;
         // Configuration
         this.loadConfiguration();
         
@@ -71,6 +83,9 @@ public class AntiBotPlugin extends JavaPlugin {
             ex.printStackTrace();
         }
         
+        // Updater
+        checkForUpdates(this.getServer().getConsoleSender());
+        
         // Shutdown if disabled
         if (getConfiguration().isEnabled()) {
             enable();
@@ -92,13 +107,37 @@ public class AntiBotPlugin extends JavaPlugin {
         regiseredAccounts++;
     }
     
-    public static void enable() {
-        enabled = true;
-        getOptions().reloadAll();
+    public static void checkForUpdates(final CommandSender sender) {
+        try {
+            updater = new AsyncPluginUpdater(instance);
+            updater.setURL(new URL(AntiBotPlugin.UPDATER_URL));
+            updater.asyncCheckForUpdates(new UpdateFuture() {
+                
+                @Override
+                public void handle(PluginUpdater updater) {
+                    if (updater.getVersions().isEmpty()) {
+                        sender.sendMessage("Nie udalo sie pobrac aktualizacji. Host nie odpowiada?");
+                        sender.sendMessage("Sprawdz ponownie za kilka chwil uzywajac komende /anti-bot updater check.");
+                    } else if (updater.isAvailable()) {
+                        sender.sendMessage(String.format("Znaleziono aktualizacje! Obecna - %s, najnowsza %s.",
+                                new Object[] {updater.getPluginVersion(), updater.getVersions().get(0)}));
+                    } else {
+                        sender.sendMessage("Plugin jest aktualny z najnowsza wersja.");
+                    }
+                }
+            });
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(AntiBotPlugin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public static void disable() {
         enabled = false;
+        getOptions().reloadAll();
+    }
+    
+    public static void enable() {
+        enabled = true;
         getOptions().reloadAll();
     }
     
@@ -116,6 +155,10 @@ public class AntiBotPlugin extends JavaPlugin {
     
     public static int getRegisteredAccounts() {
         return regiseredAccounts;
+    }
+    
+    public static PluginUpdater getUpdater() {
+        return updater;
     }
     
     public static String getVersion() {
