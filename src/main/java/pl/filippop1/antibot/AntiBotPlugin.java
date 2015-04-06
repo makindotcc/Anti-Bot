@@ -25,10 +25,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
+import pl.filippop1.antibot.command.CMDSExecutor;
 import pl.filippop1.antibot.command.CommandExecutor;
 import pl.filippop1.antibot.option.OptionsManager;
 import pl.themolka.cmds.Settings;
 import static pl.themolka.cmds.Settings.setMessage;
+import pl.themolka.cmds.command.Commands;
 import pl.themolka.cmds.util.AsyncPluginUpdater;
 import pl.themolka.cmds.util.PluginUpdater;
 import pl.themolka.cmds.util.UpdateFuture;
@@ -59,8 +61,8 @@ public class AntiBotPlugin extends JavaPlugin {
         version = this.getDescription().getVersion();
         
         // Commands and listeners
-        this.getCommand("antibot").setExecutor(new CommandExecutor());
         CommandExecutor.get().registerDefaults();
+        Commands.register(this, CMDSExecutor.class);
         this.getServer().getPluginManager().registerEvents(new LoginListener(), this);
         
         // Options

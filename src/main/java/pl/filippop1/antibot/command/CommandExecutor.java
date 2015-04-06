@@ -29,6 +29,7 @@ import pl.filippop1.antibot.command.def.StatusCommand;
 import pl.filippop1.antibot.command.def.UpdaterCommand;
 import pl.filippop1.antibot.command.def.VersionCommand;
 
+@Deprecated
 public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     private static CommandExecutor instance;
     private final Map<String, Command> commandMap;
@@ -107,6 +108,9 @@ public class CommandExecutor implements org.bukkit.command.CommandExecutor {
     }
     
     public static CommandExecutor get() {
+        if (instance == null) {
+            instance = new CommandExecutor();
+        }
         return instance;
     }
 }
