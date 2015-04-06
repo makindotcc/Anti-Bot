@@ -62,7 +62,11 @@ public class Command extends CommandOptions implements Executable {
     }
     
     public String getDescription() {
-        return "Not available yet.";
+        if (this.hasDescription()) {
+            return this.description;
+        } else {
+            return "Not available yet.";
+        }
     }
     
     public String getName() {
