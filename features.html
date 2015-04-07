@@ -10,12 +10,12 @@
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="container">
                     <div class="navbar-left">
-                        <a class="btn navbar-btn btn-link" href="./index.html">Strona główna</a>
+                        <a class="btn navbar-btn btn-link" href="./index">Strona główna</a>
                         <a class="btn navbar-btn btn-link" href="https://github.com/Thefilippop1PL/Anti-Bot/releases">Pobierz</a>
-                        <a class="btn navbar-btn btn-link" href="./features.html">Funkcje</a>
+                        <a class="btn navbar-btn btn-link" href="./features">Funkcje</a>
                     </div>
                     <div class="navbar-right">
-                        <a class="btn navbar-btn btn-link" href="./apidocs/index.html">API</a>
+                        <a class="btn navbar-btn btn-link" href="./apidocs">API</a>
                         <a class="btn navbar-btn btn-link" href="https://github.com/Thefilippop1PL/Anti-Bot">Kod źródłowy</a>
                         <a class="btn navbar-btn btn-link" href="https://github.com/Thefilippop1PL/Anti-Bot/graphs/contributors">Autorzy</a>
                     </div>
@@ -23,13 +23,131 @@
             </nav>
         </header>
         <div class="container">
-            <div class="alert alert-danger">
-                <p><strong>Ta strona jest w budowie. Wróc później!</strong></p>
-            </div>
+            <!-- <div class="alert alert-danger"><p><strong>Ta strona jest w budowie. Może ona nie być aktualna! Wróc później!</strong></p></div> -->
             <div class="page-header">
-                <h2><strong>Funkcje</strong> <small>Spis komend oraz uprawnień</small></h2>
+                <h2><strong>Funkcje</strong> <small>Spis komend oraz ich uprawnień</small></h2>
             </div>
-            <p>Tutaj będą komendy i uprawnienia ;)</p>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Komenda</th>
+                    <th>Opis</th>
+                    <th>Uprawnienie</th>
+                    <th>Aliasy</th>
+                </tr>
+                <!-- /anti-bot -->
+                <tr>
+                    <th>/anti-bot</th>
+                    <td><i>Główna komenda - zobacz /anti-bot help</i></td>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td>/antibot<br />/ab</td>
+                </tr>
+                <!-- /anti-bot help -->
+                <tr>
+                    <th>/anti-bot help</th>
+                    <td><i>Lista komend oraz ich pomoc</i></td>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td>/anti-bot ?<br />/anti-bot pomoc</td>
+                </tr>
+                <!-- /anti-bot help [command] -->
+                <tr>
+                    <th>/anti-bot help [command]</th>
+                    <td><i>Informacje oraz opis danej komendy</i></td>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td>/anti-bot ? [command]<br />/anti-bot pomoc [command]</td>
+                </tr>
+                <!-- /anti-bot logs -->
+                <tr>
+                    <th>/anti-bot logs</th>
+                    <td><i>Pokazuje ostatnie 20 zarejestrowanych kont</i></td>
+                    <td><span class="label label-warning">antibot.log</span></td>
+                    <td>/anti-bot log<br />/anti-bot latest</td>
+                </tr>
+                <!-- /anti-bot option -->
+                <tr>
+                    <th>/anti-bot option</th>
+                    <td><i>Zarzadzanie rodzajami ochrony serwera</i></td>
+                    <td></td>
+                    <td>/anti-bot options<br />/anti-bot opt</td>
+                </tr>
+                <!-- /anti-bot option default -->
+                <tr>
+                    <th>/anti-bot option default</th>
+                    <td><i>Przywraca domyślne ustawienia opcji z konfiguracji</i></td>
+                    <td><span class="label label-warning">antibot.option.default</span></td>
+                    <td>/anti-bot def<br />/anti-bot config<br />/anti-bot cfg</td>
+                </tr>
+                <!-- /anti-bot option get [option] -->
+                <tr>
+                    <th>/anti-bot option get [option]</th>
+                    <td><i>Informuje o włączonej lub wyłączonej opcji</i></td>
+                    <td><span class="label label-warning">antibot.option.get</span></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot option list -->
+                <tr>
+                    <th>/anti-bot option list</th>
+                    <td><i>Informuje o włączonych oraz wyłączonych wszystkich opcjach</i></td>
+                    <td><span class="label label-warning">antibot.option.get</span></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot option set [option] [enable|disable] -->
+                <tr>
+                    <th>/anti-bot option set [option] [enable|disable]</th>
+                    <td><i>Włącza lub wyłącza daną opcję bez zapisu w konfiguracji</i></td>
+                    <td><span class="label label-warning">antibot.option.set</span></td>
+                    <td>/anti-bot option set [option] [on|off]</td>
+                </tr>
+                <!-- /anti-bot status -->
+                <tr>
+                    <th>/anti-bot status</th>
+                    <td><i>Status graczy oraz pluginu</i></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot status enable -->
+                <tr>
+                    <th>/anti-bot status enable</th>
+                    <td><i>Włącza plugin oraz jego opcje</i></td>
+                    <td><span class="label label-warning">antibot.enable</span></td>
+                    <td>/anti-bot status on</td>
+                </tr>
+                <!-- /anti-bot status disable -->
+                <tr>
+                    <th>/anti-bot status disable</th>
+                    <td><i>Wyłącza plugin oraz jego opcje</i></td>
+                    <td><span class="label label-warning">antibot.disable</span></td>
+                    <td>/anti-bot status off</td>
+                </tr>
+                <!-- /anti-bot status info -->
+                <tr>
+                    <th>/anti-bot status info</th>
+                    <td><i>Skrót informacji pluginiu Anti-Bot</i></td>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot updater -->
+                <tr>
+                    <th>/anti-bot updater</th>
+                    <td><i>Informacje o dostępnych aktualizacjach</i></td>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot updater check -->
+                <tr>
+                    <th>/anti-bot updater check</th>
+                    <td><i>Sprawdź dostępne aktualizacje</i></td>
+                    <td><span class="label label-warning">antibot.updater.check</span></td>
+                    <td></td>
+                </tr>
+                <!-- /anti-bot version -->
+                <tr>
+                    <th>/anti-bot version</td>
+                    <td><i>Przydatne informacje oraz linki</i></th>
+                    <td><span class="label label-success">wszyscy</span></td>
+                    <td>/anti-bot ver<br />/anti-bot about<br />/anti-bot author<br />/anti-bot authors</td>
+                </tr>
+            </table>
         </div>
+        <br /><br />
     </body>
 </html>
