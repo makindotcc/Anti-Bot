@@ -60,6 +60,20 @@ public class AntiBotPlugin extends JavaPlugin {
         // Version
         version = this.getDescription().getVersion();
         
+        // CMDS library
+        Plugin cmdsPlugin = this.getServer().getPluginManager().getPlugin("CMDS");
+        if (cmdsPlugin == null) {
+            Settings.setup(this);
+        } else {
+            this.getServer().getPluginManager().enablePlugin(cmdsPlugin);
+        }
+        
+        setMessage("console", "Musisz byc graczem w grze, aby wykonac ta komende.");
+        setMessage("internal-error", "Wewnetrzny blad serwera: zobacz konsole po wiecej informacji.");
+        setMessage("not-implemented", "Nie zaimplementowano jeszcze w wykonawcy.");
+        setMessage("number", "Musisz podac liczbe (otrzymano tekst).");
+        setMessage("permission", "Nie posiadasz uprawnien do wykonania tej komendy.");
+        
         // Commands and listeners
         CommandExecutor.get().registerDefaults();
         Commands.register(this, CMDSExecutor.class);
@@ -68,14 +82,6 @@ public class AntiBotPlugin extends JavaPlugin {
         // Options
         options = new OptionsManager(this.getConfig());
         options.addDefaultOptions();
-        
-        // CMDS library
-        Settings.setup(this);
-        setMessage("console", "Musisz byc graczem w grze, aby wykonac ta komende.");
-        setMessage("internal-error", "Wewnetrzny blad serwera: zobacz konsole po wiecej informacji.");
-        setMessage("not-implemented", "Nie zaimplementowano jeszcze w wykonawcy.");
-        setMessage("number", "Musisz podac liczbe (otrzymano tekst).");
-        setMessage("permission", "Nie posiadasz uprawnien do wykonania tej komendy.");
         
         // Metrics
         try {
@@ -102,7 +108,9 @@ public class AntiBotPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         // CMDS library
-        Settings.destroy();
+        if (this.getServer().getPluginManager().getPlugin("CMDS") == null) {
+            Settings.destroy();
+        }
     }
     
     public static void addRegisteredAccount() {

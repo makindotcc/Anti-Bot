@@ -15,11 +15,11 @@
  */
 package pl.themolka.cmds.command;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import pl.themolka.cmds.Settings;
 
 /**
@@ -30,6 +30,7 @@ public class Command extends CommandOptions implements Executable {
     private final String[] aliases;
     private String description;
     private String permission;
+    private Plugin plugin;
     private String usage;
     
     public Command(String[] aliases) {
@@ -77,6 +78,10 @@ public class Command extends CommandOptions implements Executable {
         return this.permission;
     }
     
+    public Plugin getPlugin() {
+        return this.plugin;
+    }
+    
     public String getUsage() {
         String result = "/" + this.getName();
         if (this.hasCustomUsage()) {
@@ -103,6 +108,11 @@ public class Command extends CommandOptions implements Executable {
     
     public void setPermission(String permission) {
         this.permission = permission;
+    }
+    
+    public void setPlugin(Plugin plugin) {
+        Validate.notNull(plugin, "plugin can not be null");
+        this.plugin = plugin;
     }
     
     public void setUsage(String usage) {

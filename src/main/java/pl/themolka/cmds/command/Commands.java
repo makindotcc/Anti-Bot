@@ -107,6 +107,9 @@ public class Commands {
         for (Class<? extends Command> cmdClass : command) {
             try {
                 Command cmd = cmdClass.newInstance();
+                if (cmd.getPlugin() == null) {
+                    cmd.setPlugin(plugin);
+                }
                 commands.add(cmd);
                 
                 org.bukkit.command.Command bCommand = new CommandPerformer(BukkitCommandExecutor.getInstance(), cmd.getName());

@@ -15,10 +15,13 @@
  */
 package pl.themolka.cmds.internal;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import pl.themolka.cmds.Settings;
 import pl.themolka.cmds.command.Command;
+import pl.themolka.cmds.command.CommandException;
 import pl.themolka.cmds.command.Commands;
 
 /**
@@ -37,9 +40,18 @@ public class CmdsCommand extends Command {
     }
     
     @Override
-    public void handle(CommandSender sender, String label, String[] args) {
-        if (args.length > 0 && args[0].equalsIgnoreCase("list")) {
-            this.printCommands(sender);
+    public void handle(CommandSender sender, String label, String[] args) throws CommandException {
+        if (args.length > 0 && (args[0].equalsIgnoreCase("list") || args[0].equalsIgnoreCase("help") || args[0].equalsIgnoreCase("?"))) {
+            if (args.length == 1) {
+                this.printCommands(sender);
+            } else if (args.length == 2) {
+                Plugin plugin = this.getPlugin(args[1]);
+                if (plugin != null) {
+                    this.printCommands(sender, plugin);
+                } else {
+                    throw new CommandException(args[1] + " was not found on this server.");
+                }
+            }
         } else {
             sender.sendMessage(ChatColor.YELLOW + "======" + ChatColor.DARK_PURPLE + "=== CMDS ===" + ChatColor.YELLOW + "======");
             sender.sendMessage(ChatColor.YELLOW + CmdsCommand.DESCRIPTION);
@@ -48,6 +60,15 @@ public class CmdsCommand extends Command {
             sender.sendMessage(ChatColor.GOLD + "Source code: " + ChatColor.GREEN + CmdsCommand.SOURCE);
             sender.sendMessage(ChatColor.GOLD + "Issue tracker: " + ChatColor.GREEN + CmdsCommand.ISSUES);
         }
+    }
+    
+    private Plugin getPlugin(String name) {
+        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {
+            if (plugin.getName().toLowerCase().contains(name.toLowerCase())) {
+                return plugin;
+            }
+        }
+        return null;
     }
     
     private String getVersion() {
@@ -61,6 +82,19 @@ public class CmdsCommand extends Command {
         for (Command command : Commands.getCommands()) {
             if (!command.hasPermission() || sender.hasPermission(command.getPermission())) {
                 sender.sendMessage(ChatColor.GREEN + "/" + command.getName() + ChatColor.GOLD + " - " + command.getDescription());
+            }
+        }
+    }
+    
+    private void printCommands(CommandSender sender, Plugin plugin) {
+        sender.sendMessage(ChatColor.YELLOW + "======" + ChatColor.DARK_PURPLE + "=== " + plugin.getName() + " Command List ===" + ChatColor.YELLOW + "======");
+        sender.sendMessage(ChatColor.GREEN + "You have access to the following " + plugin.getName() + " commands:");
+        
+        for (Command command : Commands.getCommands()) {
+            if (command.getPlugin().equals(plugin)) {
+                if (!command.hasPermission() || sender.hasPermission(command.getPermission())) {
+                    sender.sendMessage(ChatColor.GREEN + "/" + command.getName() + ChatColor.GOLD + " - " + command.getDescription());
+                }
             }
         }
     }
